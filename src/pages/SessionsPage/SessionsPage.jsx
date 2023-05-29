@@ -1,12 +1,18 @@
 import styled from "styled-components"
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { Link } from "react-router-dom";
+
 
 export default function SessionsPage() {
     const [recebeSessoes, setRecebeSessoes] = useState(null);
+    const params = useParams();
+    console.log(params)
+
     //procurar por useParamets
     useEffect(() => {
-        const requisicao = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies/5/showtimes")
+        const requisicao = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${params.idFilme}/showtimes`)
         requisicao.then(resposta => {
             setRecebeSessoes(resposta.data)
             console.log(resposta.data)
@@ -19,34 +25,38 @@ export default function SessionsPage() {
 
         <PageContainer>
             Selecione o horário
-            <div>
-                {recebeSessoes == null ? "" :
-                    <>
+            {recebeSessoes == null ? "" :
+                <>
+                    <div>
                         {recebeSessoes.days.map(dia => {
                             return (
                                 <SessionContainer key={dia.id}>
                                     <p> {dia.weekday} - {dia.date} </p>
                                     <ButtonsContainer>
-                                        {dia.showtimes.map(horario => <LindoButton>{horario.name}</LindoButton> ) }
+
+                                       {dia.showtimes.map(horario => <Link to={`/assentos/${horario.id}`}> <LindoButton>{horario.name}</LindoButton>  </Link>)}  
+
+
                                     </ButtonsContainer>
                                 </SessionContainer>
-
-                            )}
                             )
                         }
-                    </>
-                }
+                        )}
+                    </div>
 
-            </div>
+                    <FooterContainer>
+                        <div>
+                            <img src={recebeSessoes.posterURL} alt="poster" />
+                        </div>
+                        <div>
+                            <p>{recebeSessoes.title}</p>
+                        </div>
+                    </FooterContainer>
+                </>
+            }
 
-            <FooterContainer>
-                <div>
-                    <img src={recebeSessoes.posterURL} alt="poster" />
-                </div>
-                <div>
-                    <p>{recebeSessoes.title}</p>
-                </div>
-            </FooterContainer>
+
+
 
         </PageContainer>
     )

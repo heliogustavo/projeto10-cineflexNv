@@ -7,22 +7,25 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <NavContainer>CINEFLEX</NavContainer>
+        <>
 
-                <route path="/" element={<HomePage />} />
-                <route path="/sessoes/: id de um Filme" element={<SessionsPage />} />
-                <route path="/assentos/: id de uma Sessao" element={<SeatsPage />} />
-                <route path="" element={<SuccessPage />} />
+            <BrowserRouter>
+                <NavContainer>CINEFEX</NavContainer>
 
-            </Routes>
-        </BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/sessoes/:idFilme" element={<SessionsPage />} />
+                    <Route path="/assentos/:idSessao" element={<SeatsPage />} />
+                    <Route path="" element={<SuccessPage />} />
 
+                </Routes>
+            </BrowserRouter>
+        </>
     )
-}
+    }
 
-const NavContainer = styled.div`
+
+    const NavContainer = styled.div`
     width: 100%;
     height: 70px;
     display: flex;

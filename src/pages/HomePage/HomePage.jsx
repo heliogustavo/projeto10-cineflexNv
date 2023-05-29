@@ -26,7 +26,7 @@ export default function HomePage() {
                 {estadoFilmes.map(dadosFilmes =>
                     <MovieContainer key={dadosFilmes.id}>
                        
-                      <Link to="/sessoes/: id de um Filme"> <img src={dadosFilmes.posterURL} alt="error" />  </Link>
+                     <Link to={`/sessoes/${dadosFilmes.id}`}> <img src={dadosFilmes.posterURL} alt="error" />  </Link>
 
                     </MovieContainer> )
 }
