@@ -1,42 +1,50 @@
 import styled from "styled-components"
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function SessionsPage() {
+    const [recebeSessoes, setRecebeSessoes] = useState(null);
+    //procurar por useParamets
+    useEffect(() => {
+        const requisicao = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies/5/showtimes")
+        requisicao.then(resposta => {
+            setRecebeSessoes(resposta.data)
+            console.log(resposta.data)
+        })
+
+
+    }, [])
 
     return (
+
         <PageContainer>
             Selecione o horário
             <div>
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
+                {recebeSessoes == null ? "" :
+                    <>
+                        {recebeSessoes.days.map(dia => {
+                            return (
+                                <SessionContainer key={dia.id}>
+                                    <p> {dia.weekday} - {dia.date} </p>
+                                    <ButtonsContainer>
+                                        {dia.showtimes.map(horario => <LindoButton>{horario.name}</LindoButton> ) }
+                                    </ButtonsContainer>
+                                </SessionContainer>
 
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
+                            )}
+                            )
+                        }
+                    </>
+                }
 
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
             </div>
 
             <FooterContainer>
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={recebeSessoes.posterURL} alt="poster" />
                 </div>
                 <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
+                    <p>{recebeSessoes.title}</p>
                 </div>
             </FooterContainer>
 
@@ -47,6 +55,7 @@ export default function SessionsPage() {
 const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
     font-family: 'Roboto';
     font-size: 24px;
     text-align: center;
@@ -78,6 +87,17 @@ const ButtonsContainer = styled.div`
         text-decoration: none;
     }
 `
+
+const LindoButton = styled.button`
+    width: 83px;
+    height: 43px;
+    left: 114px;
+    top: 227px;
+    background: #E8833A;
+    border-radius: 3px;
+`
+
+
 const FooterContainer = styled.div`
     width: 100%;
     height: 120px;

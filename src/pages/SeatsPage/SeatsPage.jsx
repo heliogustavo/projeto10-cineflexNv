@@ -1,6 +1,14 @@
-import styled from "styled-components"
+import { useState, useEffect } from 'react';
+import axios from 'axios';import styled from "styled-components"
 
 export default function SeatsPage() {
+    const [recebeAcentos, setRecebeAcentos] = useState([])
+
+    useEffect(()=>{
+    const requisicao = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/showtimes/.../seats")
+    
+    }
+    ,[])
 
     return (
         <PageContainer>
